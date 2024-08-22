@@ -1,0 +1,8 @@
+<div>
+    <h3>Current Value: {{ currentValue$ | async }}</h3>
+    <h3>Values List:</h3>
+    <ul>
+      <li *ngFor="let value of values$ | async">{{ value }}</li>
+    </ul>
+  </div>
+  
