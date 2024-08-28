@@ -3,6 +3,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { TextboxState } from '../store/reducer';
 
+interface NavItem {
+  name: string;
+}
+
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -11,11 +15,11 @@ import { TextboxState } from '../store/reducer';
 export class CardComponent {
   currentValue$: Observable<string | number | null>;
   values$: Observable<Array<string | number>>;
-  navBar: string[] = [];
+  navBar: NavItem[] = [];
 
-  student = ['Home', 'Study'];
-  teacher = ['LMS', 'Dashboard', 'Exams'];
-  clerk = ['Fees', 'Admission', 'Result'];
+  student: NavItem[] = [{ name: 'Home' }, { name: 'Study' }];
+  teacher: NavItem[] = [{ name: 'LMS' }, { name: 'Dashboard' }, { name: 'Exams' }];
+  clerk: NavItem[] = [{ name: 'Fees' }, { name: 'Admission' }, { name: 'Result' }];
 
   constructor(private store: Store<{ textbox: TextboxState }>) {
     this.currentValue$ = store.select(state => state.textbox.currentValue);
