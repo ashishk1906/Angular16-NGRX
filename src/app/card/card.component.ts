@@ -1,8 +1,10 @@
+// src/app/card/card.component.ts
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { TextboxState } from '../store/reducer';
 import { updateNavBar } from '../store/actions'; 
+import { selectCurrentValue, selectValues, selectNavBar } from '../store/selector';
 
 export interface NavItem {
   name: string;
@@ -17,7 +19,7 @@ export interface NavItem {
 export class CardComponent {
   currentValue$: Observable<string | number | null>;
   values$: Observable<Array<string | number>>;
-  navBar: NavItem[] = [];
+  navBar$: Observable<NavItem[]>;
 
   student: NavItem[] = [{ name: 'Home', route: '' }, { name: 'Study', route: '' }];
   teacher: NavItem[] = [{ name: 'LMS', route: '' }, { name: 'Dashboard', route: '' }, { name: 'Exams', route: '' }];
@@ -35,13 +37,9 @@ export class CardComponent {
   };
 
   constructor(private store: Store<{ textbox: TextboxState }>) {
-    this.currentValue$ = store.select(state => state.textbox.currentValue);
-    this.values$ = store.select(state => state.textbox.values);
-
-  
-    this.store.select(state => state.textbox.navBar).subscribe(navBar => {
-      this.navBar = navBar;
-    });
+    this.currentValue$ = this.store.select(selectCurrentValue);
+    this.values$ = this.store.select(selectValues);
+    this.navBar$ = this.store.select(selectNavBar);
   }
   
   appendRoutes(navItems: NavItem[]) {
@@ -63,5 +61,20 @@ export class CardComponent {
   onClerkClick() {
     this.appendRoutes(this.clerk);
     this.store.dispatch(updateNavBar({ navBar: this.clerk })); 
+  }
+
+  ut_changePersona(personaName: string) {
+    console.log(personaName);
+    switch (personaName) {
+      case 'student':
+        this.onStudentClick();     
+        break;
+      case 'teacher':
+        this.onTeacherClick();     
+        break;
+      case 'clerk':
+        this.onClerkClick();     
+        break; 
+    }
   }
 }

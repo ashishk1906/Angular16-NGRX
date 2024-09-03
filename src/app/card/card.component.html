@@ -1,3 +1,4 @@
+<!-- src/app/card/card.component.html -->
 <div class="card-container">
   <div class="card-header">
     <h3>Current Value: <span>{{ currentValue$ | async }}</span></h3>
@@ -12,15 +13,15 @@
     </ul>
 
     <div class="button-group">
-      <button class="btn btn-primary" (click)="onStudentClick()">Student</button>
-      <button class="btn btn-secondary" (click)="onTeacherClick()">Teacher</button>
-      <button class="btn btn-success" (click)="onClerkClick()">Clerk</button>
+      <button class="btn btn-primary" (click)="ut_changePersona('student')">Student</button>
+      <button class="btn btn-secondary" (click)="ut_changePersona('teacher')">Teacher</button>
+      <button class="btn btn-success" (click)="ut_changePersona('clerk')">Clerk</button>
     </div>
   </div>
   
   <nav>
     <ul class="nav-bar">
-      <li *ngFor="let item of navBar">{{ item.name }}</li>
+      <li *ngFor="let item of (navBar$ | async)">{{ item.name }}</li>
     </ul>
   </nav>
 </div>
